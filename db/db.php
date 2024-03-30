@@ -1,7 +1,7 @@
 <?php
 
 $host = 'localhost';
-$db = 'bookmarks';
+$db = 'invoice';
 $user = 'postgres';
 $pass = '89999';
 $dsn = "pgsql:host=$host;dbname=$db;";

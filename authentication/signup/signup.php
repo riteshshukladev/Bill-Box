@@ -25,8 +25,7 @@ if (isset($_POST['signup'])) { // Ensure your signup form has a button named 'si
         $_SESSION['user_id'] = $username;
         $usernameurlencoded = urlencode($username);
 
-        // header("Location:../../profile/profile.php?user=".$usernameurlencoded);
-        header("Location:../login/login.html");
+        header("Location: ../../profile/profile.php?user=".$usernameurlencoded);
 
     } else {
         echo "Signup failed!";

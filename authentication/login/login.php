@@ -17,6 +17,7 @@ if (isset($_POST['login'])) { // Ensure your login form has a button named 'logi
         $usernameurlencoded = urlencode($user['username']);
 
         // header("Location: ../../profile/profile.php/@".$usernameurlencoded);
+        // header("Location: ../../profile/profile.php?user=".$usernameurlencoded);
         header("Location: ../../profile/profile.php?user=".$usernameurlencoded);
         exit;
     } else {

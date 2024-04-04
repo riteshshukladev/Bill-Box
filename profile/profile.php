@@ -3,6 +3,7 @@
 include '../db/db.php';
 session_start();
 $username = "";
+const invoicearray = [];
 
 if(isset($_SESSION['user_id']) && $_GET['user'] == $_SESSION['user_id']){
     $username = $_GET['user'];
@@ -14,11 +15,10 @@ if(isset($_SESSION['user_id']) && $_GET['user'] == $_SESSION['user_id']){
     if(!$user){
         die("User not found");
     }
+
 }
-else{
-    header("Location: ../../authentication/login/login.php");
-    exit;
-}
+
+
 
 ?>
 

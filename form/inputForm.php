@@ -102,4 +102,6 @@ if(isset($_POST['user'])){
 // }
 // });
 </script>
+
+<script src="../save/index.js"></script>
 </html>

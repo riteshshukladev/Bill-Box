@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+$username = "";
+if (isset($_SESSION['user_id'])) {
+    $username = $_SESSION['user_id'];
+}
+
 
 // Check if form data is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -17,12 +24,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $accountNumber = $_POST['accountNumber'];
     $ifsc = $_POST['ifsc'];
     $pan = $_POST['pan'];
-
-
-
-
+} else {
+    header("Location: ../form/inputForm.php");
+    exit;
 }
 
+$subtotal = 0;
+$total = 0;
+
+
+foreach ($amountInput as $amount) {
+    $subtotal += $amount;
+}
+
+$total = $subtotal;
 
 ?>
 
@@ -86,13 +101,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="sub-total-section">
                 <div class="sub-total">
                     <div>Sub Total</div>
-                    <div class="sub-total-value">Rs 00,000.00</div>
+                    <div class="sub-total-value"><?php echo htmlspecialchars($total) ?></div>
                 </div>
             </div>
 
             <div class="total-card">
                 <span class="label">Total</span>
-                <span class="total-value">Rs 00,000.00</span>
+                <span class="total-value"><?php echo htmlspecialchars($total) ?></span>
             </div>
 
             <div class="bank-details">
@@ -112,20 +127,109 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div id="three_buttons">
             <button class="edit">Edit</button>
             <button class="print">Print</button>
-            <button class="Save">Save</button>
+            <button class="saveBtn" type="button">Save</button>
+            <button class="home-button">Home</button>
         </div>
     </div>
 
 </body>
-                <script>
-                    const buttons_main = document.querySelector('#three_buttons');
-                    document.querySelector('.edit').addEventListener('click', () => {
-                        window.history.back();
-                    });
+<script>
+    
+document.addEventListener('DOMContentLoaded', function() {
+    // PHP variables to JS
+    const invoiceData = {
+        username : "<?php echo $username; ?>",
+        projectName: "<?php echo addslashes($projectName); ?>",
+        billerName: "<?php echo addslashes($billerName); ?>",
+        billerEmail: "<?php echo addslashes($billerEmail); ?>",
+        billerPhone: "<?php echo addslashes($billerPhone); ?>",
+        billingDate: "<?php echo addslashes($billingDate); ?>",
+        dueDate: "<?php echo addslashes($dueDate); ?>",
+        senderAddress: "<?php echo addslashes($senderAddress); ?>",
+        receiverAddress: "<?php echo addslashes($receiverAddress); ?>",
+        serviceInput: <?php echo json_encode($serviceInput); ?>,
+        amountInput: <?php echo json_encode($amountInput); ?>,
+        bankName: "<?php echo addslashes($bankName); ?>",
+        accountNumber: "<?php echo addslashes($accountNumber); ?>",
+        ifsc: "<?php echo addslashes($ifsc); ?>",
+        pan: "<?php echo addslashes($pan); ?>",
+        subtotal: "<?php echo $subtotal; ?>",
+        total: "<?php echo $total; ?>"
+    };
+    
+    
+    document.querySelector('.saveBtn').addEventListener('click', function() {
+        sendInvoiceData(invoiceData);
+    });
 
-                    document.querySelector('.print').addEventListener('click', () => {
-                        buttons_main.style.display = 'none';
-                        window.print();
-                    });
-                </script>
+
+    const buttons_main = document.querySelector('#three_buttons');
+    document.querySelector('.edit').addEventListener('click', () => {
+        window.history.back();
+    });
+
+    document.querySelector('.print').addEventListener('click', () => {
+        buttons_main.style.display = 'none';
+        window.print();
+        window.location.reload();
+    });
+
+    
+
+
+
+    document.addEventListener('keydown', function(event) {
+
+    if (event.ctrlKey && (event.key === 'p' || event.key === 'P')) {
+        event.preventDefault(); 
+        console.log('Ctrl + P intercepted');
+        buttons_main.style.display = 'none';
+        window.print();
+        window.location.reload();
+
+
+    }
+});
+
+document.querySelector('.home-button').addEventListener('click', () => {
+    window.location.href = "../profile/profile.php?user=<?php echo htmlspecialchars($username) ?>";
+});
+
+
+});
+
+</script>
+
+<script>
+    function sendInvoiceData(invoiceData) {
+        var xhr = new XMLHttpRequest();
+        console.log(invoiceData);
+
+        xhr.open("POST", "save.php", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) { // Request completed
+                if (xhr.status >= 200 && xhr.status < 300) { // Success response
+                    var responseText = JSON.parse(xhr.responseText);
+                    console.log(responseText); // Corrected the position of this line
+
+                    if (responseText.status === "success") {
+                        alert("Invoice saved successfully"); 
+                        
+                    } else {
+                        alert("Invoice not saved");
+                    }
+                } else {
+                    // Handle HTTP error responses (4xx, 5xx codes)
+                    console.log("HTTP Error:", xhr.statusText);
+                }
+            }
+        };
+
+        xhr.send(JSON.stringify(invoiceData));
+    }
+</script>
+
+<!-- <script src="../save/index.js"></script> -->
 </html>

@@ -73,14 +73,75 @@ div > button img {
 
 /* Text Styles */
 h1, h2, h3, h4, h5, h6 {
-    color: #007bff; /* Unified color for headings */
+    color: #007bff; 
     margin-top: 0;
-    margin-bottom: 10px; /* Spacing after headings */
+    margin-bottom: 10px;
 }
 
 p {
     font-size: 1rem;
     margin-top: 0;
-    margin-bottom: 1em; /* Spacing after paragraphs */
-    color: #333; /* Slightly darker text for readability */
+    margin-bottom: 1em; 
+    color: #333; 
+}
+
+/* Invoices Section */
+#invoices {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+}
+
+#invoices h3 {
+    color: #007bff;
+    margin-bottom: 20px; /* Add space between the title and the list */
+}
+
+.invoiceList {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between each invoice entry */
+}
+
+.invoice {
+    background-color: #f9f9f9; /* Light grey background for each invoice entry */
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.invoice div{
+    display: flex;
+    flex-direction:row;
+    gap: 5px;
+}
+.invoice h6 {
+    margin: 0; /* Removes margin to align title properly */
+    color: #333; /* Darker color for the project name */
+    font-size: 1rem; /* Size of the project name */
+}
+
+/* General invoice button styles, applying to both View and Delete buttons */
+.invoice button {
+    background-color: #007bff; /* Blue background for buttons */
+    color: #fff; /* White text */
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-radius: 4px;
+    margin-left: 10px; /* Adds spacing between buttons */
+}
+
+
+
+.invoice button:hover {
+    background-color: #0056b3; /* Darker blue on hover for better interaction */
 }

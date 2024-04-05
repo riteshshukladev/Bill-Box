@@ -65,7 +65,7 @@ if(isset($data['projectName'] , $data['billerName'], $data['billerEmail'] ,$data
 
         $pdo->commit();
         echo json_encode(['status' => 'success', 'message' => 'Data Added successfully', 'redirect' => '../profile/profile.php']);
-
+        
 
     }
     catch (Exception $e) {
